@@ -1,3 +1,5 @@
+var drag;
+
 anychart.onDocumentReady(function() {
     // The data used in this sample can be obtained from the CDN
     // https://cdn.anychart.com/csv-data/csco-daily.csv
@@ -60,17 +62,39 @@ anychart.onDocumentReady(function() {
             // initiate chart drawing
             chart.draw();
 
+            chart.listen("annotationChangeFinish", function(){
+                alert(drag)
+                if(drag == true){
+                    drag == false
+                    alert("Drag finished");
+                }
+            });
+
+            chart.listen("annotationChange", function(){
+                if(drag == false){
+                    drag == true;
+                }
+            });
+
             // reset the select list to the first option
             chart.listen("annotationDrawingFinish", function(){
                // get the number of annotations
                var annotationsCount = plot.annotations().getAnnotationsCount();
+               var newAnn = plot.annotations().getAnnotationAt(annotationsCount - 1);
+               console
                if(confirm("Do you want to save this marker?") == true){
                     $.ajax({
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                         url:site_url+"/trend/saveTrendLines",
                         type:"POST",
                         data:{
-                            xAnchor:plot.annotations().getAnnotationAt(annotationsCount - 1).xAnchor()
+                            enabled:newAnn.enabled(),
+                            type:newAnn.getType(),
+                            color:newAnn.color(),
+                            xAnchor:newAnn.xAnchor(),
+                            secondXAnchor:newAnn.secondXAnchor(),
+                            valueAnchor:newAnn.valueAnchor(),
+                            secondValueAnchor:newAnn.secondValueAnchor()
                         },
                         dataType:"json",
                         success:function(response){
@@ -116,7 +140,13 @@ anychart.onDocumentReady(function() {
 
             // create annotations
             $("#typeSelect").change(function(){
-                plot.annotations().startDrawing(this.value);
+                //plot.annotations().startDrawing(this.value);
+                if(this.value == "bz-rectangle"){
+                    plot.annotations().startDrawing({type: "rectangle", color: "cadetblue"});
+                }else{
+                    plot.annotations().startDrawing({type: "rectangle", color: "red"});
+                }
+
             });
 
             // remove all annotations
@@ -138,12 +168,15 @@ anychart.onDocumentReady(function() {
             //remove selected
             $("#removeSel").click(function(){
                 if(confirm("Do you want to delete this marker?") == true){
+                    var newAnn = plot.annotations().getSelectedAnnotation();
                     $.ajax({
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                         url:site_url+"/trend/removeTrendLines",
                         type:"POST",
                         data:{
-                            xAnchor:plot.annotations().getSelectedAnnotation().xAnchor()
+                            color:newAnn.color(),
+                            xAnchor:newAnn.xAnchor(),
+                            secondXAnchor:newAnn.secondXAnchor()
                         },
                         dataType:"json",
                         success:function(response){

@@ -12,13 +12,24 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    if(Auth::guard('web')->check()){
+        return redirect('home');
+    }elseif(Auth::guard('admin')->check()){
+        return redirect('admin');
+    }else{
+        return view('welcome', ['js' => "root"]);
+    }
+})->name('root');
 
 Auth::routes();
 
+Route::get('/chart-data/getChartData', 'ChartDataController@getChartData')->name('chart-data.get-chart-data');
+Route::get('/chart-data/getTrendLines', 'ChartDataController@getTrendLines')->name('chart-data.get-trend-line');
+
 Route::get('/home', 'HomeController@index')->name('home');
-Route::post('home/getJsonData', 'HomeController@getJsonData')->name('home.get-json-data');
+Route::post('home/saveToJsonFile', 'HomeController@saveToJsonFile')->name('home.save-json-file');
+Route::get('home/getTrendLines', 'HomeController@getTrendLines')->name('home.get-trend-line');
+
 Route::get('/users/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 
     Route::prefix('admin')->group(function(){
@@ -29,12 +40,14 @@ Route::get('/users/logout', 'Auth\LoginController@userLogout')->name('user.logou
         Route::get('/', 'AdminController@index')->name('admin.dashboard');
     });
 
-    Route::prefix('admin-crud')->group(function(){
+    Route::prefix('manage-admin')->group(function(){
         Route::post('/anyData','AdminCrudController@anyData');
-        Route::post('/add','AdminCrudController@add')->name('admin-crud.add');
-        Route::post('/update','AdminCrudController@update')->name('admin-crud.update');
-        Route::post('/delete','AdminCrudController@delete')->name('admin-crud.delete');
-        Route::get('/', 'AdminCrudController@index')->name('admin-crud');
+        Route::post('/add','AdminCrudController@add')->name('manage-admin.add');
+        Route::post('/update','AdminCrudController@update')->name('manage-admin.update');
+        Route::post('/delete','AdminCrudController@delete')->name('manage-admin.delete');
+        Route::post('/checkEmail','AdminCrudController@checkEmail')->name('manage-admin.checkEmail');
+        Route::post('/resetPassword','AdminCrudController@resetPassword')->name('manage-admin.resetPassword');
+        Route::get('/', 'AdminCrudController@index')->name('manage-admin');
     });
 
     Route::prefix('data-import')->group(function(){

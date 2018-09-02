@@ -52,43 +52,60 @@ class TrendController extends Controller
 
     function saveTrendLines(Request $request){
         $arr[] = ['id_currency' => 1,
-                  'xAnchor' => $request->input('xAnchor')
+                  'enabled' => $request->input('enabled'),
+                  'type' => $request->input('type'),
+                  'color' => $request->input('color'),
+                  'xAnchor' => $request->input('xAnchor'),
+                  'secondXAnchor' => $request->input('secondXAnchor'),
+                  'valueAnchor' => $request->input('valueAnchor'),
+                  'secondValueAnchor' => $request->input('secondValueAnchor'),
         ];
-        DB::table('trend_markers')->insert($arr);
-        return response()->json(json_encode(array('staus'=>true)));
+        $status = DB::table('zones')->insert($arr);
+        return response()->json(array('status'=>$status));
     }
 
     function removeTrendLines(Request $request){
-        DB::table('trend_markers')->where('id_currency', '=', 1)->where('xAnchor', '=', $request->input('xAnchor'))->delete();
-        return response()->json(json_encode(array('staus'=>true)));
+        DB::table('zones')->where('id_currency', '=', 1)
+           ->where('color', $request->input('color'))
+           ->where('xAnchor', $request->input('xAnchor'))
+           ->where('secondXAnchor', $request->input('secondXAnchor'))
+           ->delete();
+        return response()->json(json_encode(array('status'=>true)));
     }
 
     function getTrendLines(){
-        $param = array( "enabled"=>true,
-                        "type"=>"vertical-line",
-                        "color"=>"#e06666",
-                        "allowEdit"=>true,
-                        "hoverGap"=>5,
-                        "normal"=>array("markers"=>array(   "enabled"=>false,
-                                                            "anchor"=>"center",
-                                                            "offsetX"=>0,
-                                                            "offsetY"=>0,
-                                                            "type"=>"square",
-                                                            "rotation"=>0,
-                                                            "size"=>10,
-                                                            "fill"=>"#ffff66",
-                                                            "stroke"=>"#333333"
-                                                    )
-                                        ),
-                        "hovered"=>array("markers"=>array("enabled"=>null)),
-                        "selected"=>array("markers"=>array("enabled"=>true))
-                        ,"xAnchor"=>0
-                    );
+        // $param = array( "enabled"=>true,
+        //                 "type"=>"vertical-line",
+        //                 "color"=>"#e06666",
+        //                 "allowEdit"=>true,
+        //                 "hoverGap"=>5,
+        //                 "normal"=>array("markers"=>array(   "enabled"=>false,
+        //                                                     "anchor"=>"center",
+        //                                                     "offsetX"=>0,
+        //                                                     "offsetY"=>0,
+        //                                                     "type"=>"square",
+        //                                                     "rotation"=>0,
+        //                                                     "size"=>10,
+        //                                                     "fill"=>"#ffff66",
+        //                                                     "stroke"=>"#333333"
+        //                                             )
+        //                                 ),
+        //                 "hovered"=>array("markers"=>array("enabled"=>null)),
+        //                 "selected"=>array("markers"=>array("enabled"=>true))
+        //                 ,"xAnchor"=>0
+        //             );
         $data = array();
-        $result = DB::table('trend_markers')->where("id_currency", 1)->get();
+        $result = DB::table('zones')->where("id_currency", 1)->get();
         foreach($result as $item){
-            $row = $param;
-            $row['xAnchor'] = $item->xAnchor;
+            $row = array(
+                'enabled' => $item->enabled,
+                'type' => $item->type,
+                'color' => $item->color,
+                'xAnchor' => $item->xAnchor,
+                'secondXAnchor' => $item->secondXAnchor,
+                'valueAnchor' => $item->valueAnchor,
+                'secondValueAnchor' => $item->secondValueAnchor,
+            );
             $data[] = $row;
         }
         return response()->json(json_encode(array("annotationsList"=>$data)));
