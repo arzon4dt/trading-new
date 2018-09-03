@@ -3,15 +3,6 @@ var drag;
 anychart.onDocumentReady(function(){
 
     $("#id_currency").select2();
-    // $("#id_currency").select2({
-    //     data:function(){
-    //         $.ajax({
-    //             url:site_url+"/trend/getCurrency",
-    //             type:"GET",
-    //             dataType:"json"
-    //         });
-    //     }
-    // })
 
     var generateChart = function(id_currency, currency){
         $.ajax({
@@ -176,9 +167,11 @@ anychart.onDocumentReady(function(){
 
                 //remove selected
                 $("#removeSel").click(function(){
+                    var sel = plot.annotations().getSelectedAnnotation();
+                        console.log(sel);
                     if(confirm("Do you want to delete this marker?") == true){
-                        var newAnn = plot.annotations().getSelectedAnnotation();
-                        console.log(newAnn);
+                        var sel = plot.annotations().getSelectedAnnotation();
+                        console.log(sel);
                         $.ajax({
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             url:site_url+"/trend/removeTrendLines",

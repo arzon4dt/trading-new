@@ -17,18 +17,26 @@ Route::get('/', function () {
     }elseif(Auth::guard('admin')->check()){
         return redirect('admin');
     }else{
-        return view('welcome', ['js' => "root"]);
+        $result = DB::table('currency')->select('id_currency', 'currency_name')->get();
+        $data = array();
+        foreach($result as $item){
+            $row = array();
+            $row['id'] = $item->id_currency;
+            $row['item'] = $item->currency_name;
+            $data[] = $row;
+        }
+        return view('welcome', ['js' => "root", 'select2' => $data]);
     }
 })->name('root');
 
 Auth::routes();
 
-Route::get('/chart-data/getChartData', 'ChartDataController@getChartData')->name('chart-data.get-chart-data');
+Route::post('/chart-data/getChartData', 'ChartDataController@getChartData')->name('chart-data.get-chart-data');
 Route::get('/chart-data/getTrendLines', 'ChartDataController@getTrendLines')->name('chart-data.get-trend-line');
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::post('home/saveToJsonFile', 'HomeController@saveToJsonFile')->name('home.save-json-file');
+Route::post('home/getChartData', 'HomeController@getChartData')->name('home.get-chart-data');
 Route::get('home/getTrendLines', 'HomeController@getTrendLines')->name('home.get-trend-line');
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/users/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 

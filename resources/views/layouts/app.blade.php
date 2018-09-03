@@ -13,6 +13,8 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon.png') }}">
     <title>AdminBite admin Template - The Ultimate Multipurpose admin template</title>
+    <!-- Select2 -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}">
     <!-- AnyChart -->
     <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.3.0/css/anychart-ui.min.css" />
     <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.3.0/fonts/css/anychart-font.min.css" />
@@ -95,6 +97,9 @@
     <script src="{{ asset('dist/js/waves.js') }}"></script>
     <!--Custom JavaScript -->
     <script src="{{ asset('dist/js/custom.min.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
     <!-- AnyChart -->
     <script src="https://cdn.anychart.com/releases/8.3.0/js/anychart-base.min.js"></script>
     <script src="https://cdn.anychart.com/releases/8.3.0/js/anychart-ui.min.js"></script>

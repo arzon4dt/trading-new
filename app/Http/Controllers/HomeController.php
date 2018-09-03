@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\TradeData as TradeData;
 use DB;
 
 class HomeController extends Controller
@@ -24,82 +25,29 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home', ['js' => 'user-home']);
-    }
-
-    public function getJsonData(){
-        $result = DB::table('trade_data')->select('trade_date', 'open_bid', 'high_bid', 'low_bid', 'close_bid')->limit(1000)->get();
+        $result = DB::table('currency')->select('id_currency', 'currency_name')->get();
         $data = array();
         foreach($result as $item){
-            $time = strtotime($item->trade_date);
-            $utc_time = mktime( date("H", $time),
-                                date("i", $time),
-                                0,
-                                date("d", $time),
-                                date("m", $time),
-                                date("Y", $time)
-                        );
-            $row = array($utc_time*1000,
-                         $item->open_bid,
-                         $item->high_bid,
-                         $item->low_bid,
-                         $item->close_bid
-                        );
+            $row = array();
+            $row['id'] = $item->id_currency;
+            $row['item'] = $item->currency_name;
             $data[] = $row;
         }
-        return response()->json($data);
+        return view('home', ['js' => 'user-home', 'select2' => $data]);
     }
 
-    public function saveToJsonFile(){
-        $result = DB::table('trade_data')->select('trade_date', 'open_bid', 'high_bid', 'low_bid', 'close_bid')->get();
-        $data = array();
-        foreach($result as $item){
-            $time = strtotime($item->trade_date);
-            $row = array(date("U", $time)*1000,
-                         $item->open_bid,
-                         $item->high_bid,
-                         $item->low_bid,
-                         $item->close_bid
-                    );
-            $data[] = $row;
-        }
+    public function getChartData(Request $request){
 
-        $newJsonString = json_encode($data, JSON_PRETTY_PRINT);
+        $response = TradeData::getChartData($request);
+        return response()->json($response);
 
-        file_put_contents(base_path('public/files/tradingData.json'), stripslashes($newJsonString));
-
-        return response()->json(array('status' => true));
     }
 
-    function getTrendLines(){
-        $param = array( "enabled"=>true,
-                        "type"=>"vertical-line",
-                        "color"=>"#e06666",
-                        "allowEdit"=>true,
-                        "hoverGap"=>5,
-                        "normal"=>array("markers"=>array(   "enabled"=>false,
-                                                            "anchor"=>"center",
-                                                            "offsetX"=>0,
-                                                            "offsetY"=>0,
-                                                            "type"=>"square",
-                                                            "rotation"=>0,
-                                                            "size"=>10,
-                                                            "fill"=>"#ffff66",
-                                                            "stroke"=>"#333333"
-                                                    )
-                                        ),
-                        "hovered"=>array("markers"=>array("enabled"=>null)),
-                        "selected"=>array("markers"=>array("enabled"=>true))
-                        ,"xAnchor"=>0
-                    );
-        $data = array();
-        $result = DB::table('trend_markers')->where("id_currency", 1)->get();
-        foreach($result as $item){
-            $row = $param;
-            $row['xAnchor'] = $item->xAnchor;
-            $data[] = $row;
-        }
+    function getTrendLines(Request $request){
+
+        $data = TradeData::getTrendLines($request);
         return response()->json(json_encode(array("annotationsList"=>$data)));
+
     }
 
 }

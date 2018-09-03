@@ -11,7 +11,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">List Admin</h4>
-                                <button id="addBtn" class="btn btn-primary mb-2"><i class="fas fa-plus"></i>&nbsp; Add new row</button>
+                                <button id="addBtn" class="btn btn-primary mb-2"><i class="fas fa-plus"></i>&nbsp; Add User</button>
                                 <div class="table-responsive">
                                     <table id="table" class="table table-striped table-bordered">
                                         <thead>
