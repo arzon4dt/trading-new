@@ -52,7 +52,7 @@ Route::get('/users/logout', 'Auth\LoginController@userLogout')->name('user.logou
 
     Route::prefix('data-import')->group(function(){
         Route::post('/import-file', 'DataImportController@importFile')->name('data-import.import-file');
-        Route::get('/anyData','DataImportController@anyData');
+        Route::post('/anyData','DataImportController@anyData');
         Route::get('/', 'DataImportController@index')->name('data-import');
     });
 
@@ -62,6 +62,7 @@ Route::get('/users/logout', 'Auth\LoginController@userLogout')->name('user.logou
         Route::post('/saveTrendLines', 'TrendController@saveTrendLines')->name('data-import.save-trend-line');
         Route::post('/removeTrendLines', 'TrendController@removeTrendLines')->name('data-import.remove-trend-line');
         Route::post('/saveToJsonFile', 'TrendController@saveToJsonFile')->name('data-import.save-json-file');
+        Route::get('/getCurrency', 'TrendController@getCurrency')->name('data-import.get-currency');
         Route::get('/', 'TrendController@index')->name('trend');
     });
 

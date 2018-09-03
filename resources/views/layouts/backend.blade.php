@@ -15,11 +15,11 @@
     <title>AdminBite admin Template - The Ultimate Multipurpose admin template</title>
     <!-- This page plugin CSS -->
     <link href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
-    <!-- Sweet Alert -->
-    {{-- <link href="{{ asset('assets/libs/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet"> --}}
     <!-- AnyChart -->
     <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.3.0/css/anychart-ui.min.css" />
     <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.3.0/fonts/css/anychart-font.min.css" />
+    <!-- Select2 -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/select2/dist/css/select2.min.css') }}">
     <!-- Custom CSS -->
     <link href="{{ asset('dist/css/style.min.css') }}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -141,6 +141,9 @@
     <!-- Jquery Validation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('assets/libs/select2/dist/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/select2/dist/js/select2.min.js') }}"></script>
     <!-- AnyChart -->
     <script src="https://cdn.anychart.com/releases/8.3.0/js/anychart-base.min.js"></script>
     <script src="https://cdn.anychart.com/releases/8.3.0/js/anychart-ui.min.js"></script>

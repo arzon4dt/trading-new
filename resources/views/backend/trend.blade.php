@@ -20,6 +20,14 @@
                                 </div>
                                 <div class="row">
                                         <div class="col-md-12">
+                                            <select class="select2 form-control custom-select" style="width: 200px; height:36px;" id="id_currency">
+                                                    <option value="default" selected disabled>Select Currency</option>
+                                                @if (isset($select2))
+                                                    $@foreach ($select2 as $option)
+                                                    <option value="{{ $option['id'] }}">{{ $option['item'] }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
                                             <select class="col-md-3 custom-select" id="typeSelect">
                                                 <option value="default" selected disabled>Annotation Type</option>
                                                 <option value="bz-rectangle">Buy Zone</option>

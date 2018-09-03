@@ -23,7 +23,8 @@ class ChartDataController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getChartData(){
-        $result = DB::table('trade_data')->select('trade_date', 'open_bid', 'high_bid', 'low_bid', 'close_bid')->get();
+        $result = DB::table('trade_data')->select('trade_date', 'open_bid', 'high_bid', 'low_bid', 'close_bid')
+                  ->where('id_currency', 1)->get();
         $data = array();
         foreach($result as $item){
             $time = strtotime($item->trade_date);

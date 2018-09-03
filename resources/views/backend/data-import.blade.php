@@ -10,8 +10,8 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Zero Configuration</h4>
-                                <button id="addBtn" class="btn btn-primary mb-2"><i class="fas fa-plus"></i>&nbsp; Add new row</button>
+                                <h4 class="card-title">Exchange Data</h4>
+                                <button id="openBtn" class="btn btn-primary mb-2"><i class="far fa-file-excel"></i>&nbsp; Import</button>
                                 <div class="table-responsive">
                                     <table id="table" class="table table-striped table-bordered">
                                         <thead>
@@ -21,6 +21,7 @@
                                                 <th>High Bid</th>
                                                 <th>Low Bid</th>
                                                 <th>Close Bid</th>
+                                                <th>Volume</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -40,7 +41,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="modal-title"></h4>
+                            <h4 class="modal-title">Choose File</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         </div>
                         <div class="modal-body">
@@ -48,48 +49,19 @@
                             <form role="form" id="form">
                                 <div class="box-body">
                                 <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="Enter your name">
+                                    <label for="name">Currency Name</label>
+                                    <input type="text" class="form-control" name="currency_name" placeholder="Enter currency name">
                                 </div>
                                 <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" class="form-control" name="email" placeholder="Enter your email">
-                                </div>
-                                <div id="pass-div">
-                                    <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input type="password" class="form-control" name="password" placeholder="Enter your password">
-                                    </div>
+                                    <label for="sample_file">File Input</label>
+                                    <input type="file" name="sample_file" class="form-control">
                                 </div>
                                 </div>
-                                <input type="hidden" name="id">
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" id="closeBtn" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
-                            <button type="button" id="saveBtn" class="btn btn-success waves-effect text-left" >Save</button>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
-            <!-- /.modal -->
-            <!-- sample modal content -->
-            <div class="modal fade bs-example-modal-sm" id="confirm-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="mySmallModalLabel">Confirmation</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Are you sure?</p>
-                            <input type="hidden" name="deleteId">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Cancel</button>
-                            <button type="button" id="confirmBtn" class="btn btn-success waves-effect text-left">Yes</button>
+                            <button type="button" id="importBtn" class="btn btn-success waves-effect text-left" >Import</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->

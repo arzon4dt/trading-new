@@ -29,6 +29,10 @@ $(function () {
             {
                 "targets": [ 0 ],
                 "visible": false
+            },
+            {
+                targets: [ 1, 2, 3, 4, -1],
+                className: 'dt-head-center'
             }
         ]
     })
